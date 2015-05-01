@@ -1,0 +1,16 @@
+= Atomic App Examples
+
+This repository contains a set of sample services which have been decomposed
+into container images and then re-composed as containerized services using
+http://github.com/GoogleCloudPlatform/kubernetes[Kubernetes] and the https://github.com/projectatomic/nulecule[Atomic Application] toolset.
+
+Where possible the container images used will be pulled from stock images provided by the upstream software development/packaging team.  Next in line will be distribution provided images, and finally custom images required because nothing has been published from upstream yet, or because they include non-reusable layers.
+
+Each application will reside in it's own subdirectory.  That will in turn be broken into a set of dockerfiles for any custom images, and a kubernetes directory for any non-generated kubernetes configuration information.
+
+Docker does not have an INCLUDE directive which would allow for distribtion related variations in a Dockerfile.  Github does not have a mechanism for managing symbolic links which would allow sharing files between app trees. While it is a significant task to track code changes across multiple files the benefit in readability and clarity to the user outweighs (in my opinion) the task simplification for the application developers and maintainers.  Until mechanisms exist which statisfy both the reader and the developer, the responsibility will fall on the developer to keep changes to common code in sync.
+
+That said, there is a __common__ directory which can hold re-usable or shared kubernetes and Docker files.  Common files can be placed there and copied as needed.  Files in the common area should include a comment or note about the location of the original file so that copies can be recognized and checked for differences against the original.
+
+
+

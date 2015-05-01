@@ -1,0 +1,13 @@
+= MongoDB for Pulp
+
+This http://docker.com[Docker] image provides a self contained http://mongodb.org[MongoDB] service for Pulp. For the moment this is a custom container image, but the plan is to migrate to a stock one when one becomes available. We need to determine the means to create a re-usable container service that can be used by any mongo client, but which can be labeled and discovered within http://github.com/GoogleCloudPlatform[Kubernetes].
+
+== Stock Alternatives
+A  http://gitub.com/goern/mongodb[replacement candidate] is defined by Christoph Goern, designed for use within OpenShift.  As a reusable image candidate this is a good place to start.  That image is available on DockerHub:
+
+    docker search  openshift/mongodb-24-centos7
+    NAME                           DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+    openshift/mongodb-24-centos7   A Centos7 based MongoDB v2.4 image for use...   0                    
+
+
+

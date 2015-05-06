@@ -1,0 +1,14 @@
+apiVersion: v1beta3
+kind: Service
+metadata:
+  name: pulp-db
+spec:
+  ports:
+  - name: mongo
+    port: 27017
+    protocol: TCP
+    targetPort: 27017
+  publicIPs:
+  - 10.245.1.3
+  selector:
+    name: pulp-db-selector

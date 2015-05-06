@@ -1,0 +1,25 @@
+apiVersion: v1beta3
+kind: ReplicationController
+metadata:
+  labels:
+    name: pulp-msg-selector
+  name: pulp-msg-rc
+spec:
+  replicas: 1
+  selector:
+    name: pulp-msg-selector
+  template:
+    metadata:
+      labels:
+        name: pulp-msg-selector
+    spec:
+      containers:
+        - capabilities: {}
+          image: markllama/qpid
+          name: pulp-msg
+          ports:
+            - containerPort: 5672
+              protocol: TCP
+          resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

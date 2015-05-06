@@ -1,0 +1,14 @@
+apiVersion: v1beta3
+kind: Service
+metadata:
+  name: pulp-web-service
+spec:
+  ports:
+  - name: http-tcp
+    port: 80
+  - name: https-tcp
+    port: 443
+  publicIPs:
+  - 10.245.1.3
+  selector:
+    name: pulp-web-selector

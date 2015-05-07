@@ -1,0 +1,24 @@
+apiVersion: v1beta3
+kind: Pod
+metadata:
+  labels:
+    name: pulp-db-init
+  name: pulp-db-init
+spec:
+  containers:
+  - capabilities: {}
+    env:
+    - name: PULP_SERVER_NAME
+      value: pulp.example.com
+    image: markllama/pulp-db-init
+    imagePullPolicy: IfNotPresent
+    name: pulp-db-init
+    volumeMounts:
+    - mountPath: /dev/log
+      name: devlog
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+  volumes:
+  - hostPath:
+      path: /dev/log
+    name: devlog

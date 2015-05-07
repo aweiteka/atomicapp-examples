@@ -1,0 +1,27 @@
+apiVersion: v1beta3
+kind: ReplicationController
+metadata:
+  name: pulp-beat-rc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: pulp-beat
+    spec:
+      containers:
+      - capabilities: {}
+        image: markllama/pulp-beat
+        name: pulp-beat
+        env:
+        - name: PULP_SERVER_NAME
+          value: pulp.example.com
+        volumeMounts:
+        - mountPath: /dev/log
+          name: devlog
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: /dev/log
+        name: devlog
+        

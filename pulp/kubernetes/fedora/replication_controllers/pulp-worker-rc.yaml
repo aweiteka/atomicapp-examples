@@ -1,0 +1,40 @@
+apiVersion: v1beta3
+kind: ReplicationController
+metadata:
+  name: pulp-worker-rc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: pulp-worker
+      name: pulp-worker
+    spec:
+      containers:
+      - capabilities: {}
+        name: pulp-worker
+        image: markllama/pulp-worker
+        args:
+        - "1"
+        env:
+        - name: PULP_SERVER_NAME
+          value: pulp.example.com
+        resources: {}
+        volumeMounts:
+        - mountPath: /dev/log
+          name: devlog
+        - mountPath: /var/www
+          name: varwww
+        - mountPath: /var/lib/pulp
+          name: varlibpulp
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: /dev/log
+        name: devlog
+      - hostPath:
+          path: /opt/pulp/var/www
+        name: varwww
+      - hostPath:
+          path: /opt/pulp/var/lib/pulp
+        name: varlibpulp

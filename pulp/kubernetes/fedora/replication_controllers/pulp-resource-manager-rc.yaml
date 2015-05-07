@@ -1,0 +1,27 @@
+apiVersion: v1beta3
+kind: ReplicationController
+metadata:
+  name: pulp-resource-manager-rc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: pulp-resource-manager
+    spec:
+      containers:
+      - capabilities: {}
+        image: markllama/pulp-resource-manager
+        name: pulp-resource-manager
+        env:
+        - name: PULP_SERVER_NAME
+          value: pulp.example.com
+        volumeMounts:
+        - mountPath: /dev/log
+          name: devlog
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: /dev/log
+        name: devlog
+        

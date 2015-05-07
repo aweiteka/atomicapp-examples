@@ -121,55 +121,63 @@ do
 done
 echo Pulp DB initialized
 
-exit
-
 #
 # create pulp service pods
 #
 
 # - pulp-beat
-kube_create_pod_file pods/pulp-beat.json
-while ! (${KUBECTL} get pods pulp-beat | grep -q Running)
+if ! kube_replication_controller_exists pulp-beat-rc
+then
+    kube_create_replication_controller_file replication_controllers/pulp-beat-rc.yaml
+fi
+while ! (${KUBECTL} get pods | grep pulp-beat | grep -q Running)
 do
     echo "Waiting for pulp beat service"
     sleep 10
 done
 echo Pulp Beat running
 
-
 # - pulp-resource-manager
-kube_create_pod_file pods/pulp-resource-manager.json
-while ! (${KUBECTL} get pods pulp-resource-manager | grep -q Running)
+if ! kube_replication_controller_exists pulp-resource-manager-rc
+then
+    kube_create_replication_controller_file replication_controllers/pulp-resource-manager-rc.yaml
+fi
+while ! (${KUBECTL} get pods | grep pulp-resource-manager | grep -q Running)
 do
-    echo "Waiting for pulp resource manager service"
+    echo "Waiting for pulp resource-manager service"
     sleep 10
 done
 echo Pulp Resource Manager running
+
 
 #
 # Create the shared space on a minion
 #
 #ssh vagrant@10.245.1.3 sudo mkdir -p /opt/pulp/var/www
 
-# - pulp-content
+# - pulp-worker
 #
-kube_create_pod_file pods/pulp-worker.json
-while ! (${KUBECTL} get pods pulp-worker-1 | grep -q Running)
+if ! kube_replication_controller_exists pulp-worker-rc
+then
+    kube_create_replication_controller_file replication_controllers/pulp-worker-rc.yaml
+fi
+while ! (${KUBECTL} get pods | grep pulp-worker | grep -q Running)
 do
-    echo "Waiting for pulp worker 1 service"
+    echo "Waiting for pulp worker service"
     sleep 10
 done
 echo Pulp Worker 1 running
 
-# - pulp-content
 #
-kube_create_pod_file pods/pulp-apache.json
-while ! (${KUBECTL} get pods pulp-apache | grep -q Running)
+# - pulp-apache
+#
+if ! kube_replication_controller_exists pulp-apache-rc
+then
+    kube_create_replication_controller_file replication_controllers/pulp-apache-rc.yaml
+fi
+while ! (${KUBECTL} get pods | grep pulp-apache | grep -q Running)
 do
-    echo "Waiting for pulp apache"
+    echo "Waiting for pulp worker service"
     sleep 10
 done
 echo Pulp Apache running
-# check that it is bound to the endpoint!
-# kubectl get endpoints pulp-msg
-

@@ -4,7 +4,16 @@ This http://docker.com[Docker] image provides a self contained http://mongodb.or
 
 == Image Details
 
-The image spec here is based on Fedora 21 x86_64. 
+The image spec here is based on Fedora 21 x86_64.
+
+=== Software
+
+
+
+=== Volumes
+
+=== Startup and Configuration
+
 
 == Stock Alternatives
 A  http://gitub.com/goern/mongodb[replacement candidate] is defined by Christoph Goern, designed for use within OpenShift.  As a reusable image candidate this is a good place to start.  That image is available on DockerHub:

@@ -30,6 +30,9 @@ initialize_database() {
     runuser apache -s /bin/bash /bin/bash -c "/usr/bin/pulp-manage-db"
 }
 
+database_initialized() {
+    runuser apache -s /bin/bash /bin/bash -c "/usr/bin/pulp-manage-db --dry-run"
+}
 
 # =============================================================================
 # Main
@@ -57,4 +60,7 @@ wait_for_database
 # This should only be done once per Pulp service instance.  Since the
 # beat server is a singleton, this should work.
 #
-initialize_database
+if ! database_initialized
+then
+  initialize_database
+fi

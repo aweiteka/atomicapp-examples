@@ -14,7 +14,7 @@ MAINTAINER Mark Lamourine <markllama@gmail.com>
 # must be started with -v /dev/log:/dev/log
 #
 
-ADD init-db.sh init-db.sh
+ADD init_db.sh init_db.sh
 ADD run.sh /run.sh
 
 CMD [ "/run.sh" ]

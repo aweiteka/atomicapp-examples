@@ -177,7 +177,17 @@ then
 fi
 while ! (${KUBECTL} get pods | grep pulp-apache | grep -q Running)
 do
-    echo "Waiting for pulp worker service"
+    echo "Waiting for pulp apache service"
     sleep 10
 done
 echo Pulp Apache running
+
+# test auth - just get the header and look for a 200
+curl --insecure -D - -d '' --user admin:admin https://10.245.1.3/pulp/api/v2/actions/login/ -o /dev/null
+
+
+#(cd ~/kubernetes ; vagrant ssh minion-1 -c "sudo cat /var/lib/kube-proxy/kubeconfig" >kube-proxy-kubeconfig )
+
+#sudo ~/kubernetes/_output/release-stage/server/linux-amd64/kubernetes/server/bin/kube-proxy --master=https://10.245.1.2:6443 --kubeconfig=${HOME}/kubernetes/kube-proxy-kubeconfig --v=2 &
+
+

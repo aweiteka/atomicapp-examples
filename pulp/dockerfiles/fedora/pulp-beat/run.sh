@@ -44,12 +44,22 @@ then
 fi
 . /configure_pulp_server.sh
 
-if [ ! -x /test_db_available.py ] 
+#
+# Initialize the database
+#
+sh /init_db.sh
+if [ $? -ne 0 ]
 then
-  echo >&2 "Missing required initialization script for pulp server: /test_db_available.py"
+  
   exit 2
 fi
-wait_for_database
+
+#if [ ! -x /test_db_available.py ] 
+#then
+#  echo >&2 "Missing required initialization script for pulp server: /test_db_available.py"
+#  exit 2
+#fi
+#wait_for_database
 
 #
 # The celery beat service is the scheduling heart of the pulp service

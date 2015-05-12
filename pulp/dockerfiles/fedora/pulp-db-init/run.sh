@@ -15,7 +15,7 @@ wait_for_database() {
 	echo "Try #${TRY}: DB unavailable - sleeping ${DB_TEST_POLLRATE}"
 	sleep $DB_TEST_POLLRATE
     done
-    if [ $TRY -ge $DB_TEST_TRIES ]
+    if [ $DB_TEST_TRIES -ne -1 -a $TRY -ge $DB_TEST_TRIES ]
     then
 	echo "Unable to contact DB after $TRY tries: aborting container"
         exit 2

@@ -28,7 +28,7 @@ fi
 # Use the test_db_available.py script to poll for the DB server
 #
 wait_for_database() {
-    DB_TEST_TRIES=12
+    DB_TEST_TRIES=60
     DB_TEST_POLLRATE=5
     TRY=0
     while [ $TRY -lt $DB_TEST_TRIES ] && ! /test_db_available.py 
@@ -50,7 +50,7 @@ database_initialized() {
 }
 
 wait_for_database_init() {
-    DB_TEST_TRIES=12
+    DB_TEST_TRIES=60
     DB_TEST_POLLRATE=5
     TRY=0
     while [ $TRY -lt $DB_TEST_TRIES ] && ! database_initialized

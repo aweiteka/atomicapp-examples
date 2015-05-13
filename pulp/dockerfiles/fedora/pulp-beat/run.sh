@@ -47,10 +47,10 @@ fi
 #
 # Initialize the database
 #
-sh /init_db.sh
+sh -x /init_db.sh
 if [ $? -ne 0 ]
 then
-  
+  echo >&2 "Failed to initialize database"
   exit 2
 fi
 

@@ -27,10 +27,12 @@ wait_for_database() {
 #
 initialize_database() {
     # why apache? MAL
+    echo "Testing Pulp Database Initialization"
     runuser apache -s /bin/bash /bin/bash -c "/usr/bin/pulp-manage-db"
 }
 
 database_initialized() {
+    echo "Initializing Database for Pulp"
     runuser apache -s /bin/bash /bin/bash -c "/usr/bin/pulp-manage-db --dry-run"
 }
 
@@ -38,16 +40,6 @@ database_initialized() {
 # Main
 # =============================================================================
 #
-
-#
-# First, initialize the pulp server configuration
-#
-if [ ! -x /configure_pulp_server.sh ]
-then
-  echo >&2 "Missing required initialization script for pulp server: /configure_pulp_server.sh"
-  exit 2
-fi
-. /configure_pulp_server.sh
 
 if [ ! -x /test_db_available.py ] 
 then

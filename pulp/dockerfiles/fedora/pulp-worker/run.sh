@@ -44,6 +44,28 @@ wait_for_database() {
     fi
 }
 
+database_initialized() {
+    echo "Initializing Database for Pulp"
+    runuser apache -s /bin/bash /bin/bash -c "/usr/bin/pulp-manage-db --dry-run"
+}
+
+wait_for_database_init() {
+    DB_TEST_TRIES=12
+    DB_TEST_POLLRATE=5
+    TRY=0
+    while [ $TRY -lt $DB_TEST_TRIES ] && ! database_initialized
+    do
+	TRY=$(($TRY + 1))
+	echo "Try #${TRY}: DB not initialized - sleeping ${DB_TEST_POLLRATE}"
+	sleep $DB_TEST_POLLRATE
+    done
+    if [ $TRY -ge $DB_TEST_TRIES ]
+    then
+	echo "Unable to find initialized DB after $TRY tries: aborting container"
+        exit 2
+    fi
+}
+
 run_worker() {
   # WORKER_NUMBER=$1
   exec runuser apache \
@@ -78,6 +100,7 @@ then
   exit 2
 fi
 wait_for_database
+wait_for_database_init
 
 #
 # The celery worker for the Pulp Resource Manager

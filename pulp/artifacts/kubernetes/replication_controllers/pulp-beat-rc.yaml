@@ -1,18 +1,18 @@
 apiVersion: v1beta3
 kind: ReplicationController
 metadata:
-  name: pulp-resource-manager-rc
+  name: pulp-beat-rc
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: pulp-resource-manager
+        name: pulp-beat
     spec:
       containers:
       - capabilities: {}
-        image: markllama/pulp-resource-manager
-        name: pulp-resource-manager
+        image: $beat_image
+        name: pulp-beat
         env:
         - name: PULP_SERVER_NAME
           value: pulp.example.com

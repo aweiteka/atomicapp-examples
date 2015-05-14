@@ -1,27 +1,33 @@
 apiVersion: v1beta3
 kind: ReplicationController
 metadata:
-  name: pulp-beat-rc
+  labels:
+    name: pulp-db-selector
+  name: pulp-db-rc
 spec:
   replicas: 1
+  selector:
+    name: pulp-db-selector
   template:
     metadata:
       labels:
-        name: pulp-beat
+        name: pulp-db-selector
     spec:
       containers:
       - capabilities: {}
-        image: markllama/pulp-beat
-        name: pulp-beat
-        env:
-        - name: PULP_SERVER_NAME
-          value: pulp.example.com
+        image: $image
+        name: pulp-db-container
+        ports:
+        - containerPort: 27017
+          protocol: TCP
+        resources: {}
         volumeMounts:
         - mountPath: /dev/log
           name: devlog
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
       - hostPath:
           path: /dev/log
         name: devlog
-        
+        nfs: null

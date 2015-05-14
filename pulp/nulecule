@@ -1,0 +1,51 @@
+---
+specversion: 0.0.1-alpha
+id: pulpserver-app
+
+metadata:
+  name: Pulp Server App
+  appversion: 0.0.1
+  description: >
+    Atomic app for deploying a Pulp server
+graph:
+  webserver:
+    params:
+      image:
+        description: web server image
+        default: markllama/pulp-apache
+      public_ip:
+        description: public IP address for web service
+    artifacts:
+      kubernetes:
+        - file://artifacts/kubernetes/replication_controllers/pulp-apache-rc.yaml
+        - file://artifacts/kubernetes/services/pulp-web-service.yaml
+  messaging:
+    params:
+      beat_image:
+        description: pulp beat image
+        default: markllama/pulp-beat
+      resource_manager_image:
+        description: pulp resource manager image
+        default: markllama/pulp-resource-manager
+      worker_image:
+        description: pulp worker image
+        default: markllama/pulp-worker
+      qpid_broker_image:
+        description: qpid broker image
+        default: markllama/qpid
+    artifacts:
+      kubernetes:
+        - file://artifacts/kubernetes/replication_controllers/pulp-beat-rc.yaml
+        - file://artifacts/kubernetes/replication_controllers/pulp-resource-manager-rc.yaml
+        - file://artifacts/kubernetes/replication_controllers/pulp-worker-rc.yaml
+        - file://artifacts/kubernetes/replication_controllers/qpid-rc.yaml
+        - file://artifacts/kubernetes/services/qpid-service.yaml
+  mongo:
+    params:
+      image:
+        description: mongo database image
+        default: markllama/mongodb
+    artifacts:
+      kubernetes:
+        - file://artifacts/kubernetes/replication_controllers/mongodb-rc.yaml
+        - file://artifacts/kubernetes/services/mongodb-service.yaml

@@ -1,29 +1,25 @@
 apiVersion: v1beta3
 kind: ReplicationController
 metadata:
-  name: pulp-apache-rc
+  name: pulp-worker-rc
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: pulp-web
-      name: pulp-apache
+        name: pulp-worker
+      name: pulp-worker
     spec:
       containers:
       - capabilities: {}
-        image: markllama/pulp-apache
-        name: pulp-apache
-        ports:
-        - containerPort: 80
-          protocol: TCP
-        - containerPort: 443
-          protocol: TCP
+        name: pulp-worker
+        image: $worker_image
+        args:
+        - "1"
         env:
         - name: PULP_SERVER_NAME
           value: pulp.example.com
-        - name: SSL_TARBALL_URL
-          value: http://refarch.cloud.lab.eng.bos.redhat.com/pub/users/mlamouri/apache_ssl_keys.tar
+        resources: {}
         volumeMounts:
         - mountPath: /dev/log
           name: devlog

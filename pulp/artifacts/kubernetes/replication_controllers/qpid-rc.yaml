@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - capabilities: {}
-          image: markllama/qpid
+          image: $qpid_broker_image
           name: pulp-msg
           ports:
             - containerPort: 5672
